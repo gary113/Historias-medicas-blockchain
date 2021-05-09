@@ -16,6 +16,7 @@ import json
 # app and jsonify is for
 # displaying the blockchain
 from flask import Flask,render_template,request, jsonify
+import json
 
 
 class Blockchain:
@@ -24,19 +25,28 @@ class Blockchain:
 	# to create the very first
 	# block and set it's hash to "0"
 	def __init__(self):
-		self.chain = []
-		self.create_block(proof=1, previous_hash='0')
 
-	# This function is created
-	# to add further blocks
-	# into the chain
-	def create_block(self, proof, previous_hash):
-		block = {'index': len(self.chain) + 1,
-				'timestamp': str(datetime.datetime.now()),
-				'proof': proof,
-				'previous_hash': previous_hash}
-		self.chain.append(block)
-		return block
+		try :
+			
+			with open('bdJson.json', 'r') as f:
+
+				print('Existe bloque genesis')
+				self.chain=json.load(f)
+
+		except:
+
+			self.chain = []
+
+			block = {'index': len(self.chain) + 1,
+					'timestamp': str(datetime.datetime.now()),
+					'proof': 1,
+					'previous_hash': 0}
+
+			self.chain.append(block)
+
+			with open('bdJson.json','w') as file:
+				json.dump(self.chain,file,indent=4)
+
 
 	def create_block_paciente(self, proof, previous_hash,nombre,apellido):
 		block = {'index': len(self.chain) + 1,
@@ -47,11 +57,58 @@ class Blockchain:
 				'apellido':apellido}
 		self.chain.append(block)
 		return block
+	
+	def create_block_doctor(self, proof, previous_hash,nombre,apellido):
+		block = {'index': len(self.chain) + 1,
+				'timestamp': str(datetime.datetime.now()),
+				'proof': proof,
+				'previous_hash': previous_hash,
+				'nombre':nombre,
+				'apellido':apellido}
+		self.chain.append(block)
+		return block
+	
+	def create_block_registro_historia(self, proof, previous_hash,hash_paciente,hash_doctor):
+		block = {'index': len(self.chain) + 1,
+				'timestamp': str(datetime.datetime.now()),
+				'proof': proof,
+				'previous_hash': previous_hash,
+				'hash_paciente':hash_paciente,
+				'hash_doctor':hash_doctor}
+		self.chain.append(block)
+		return block
+
+	def minar_bloque(self,tipo_bloque): #1=paciente, 2=doctor , 3=registro_historia
+
+		previous_block = blockchain.chain[-1]
+		previous_proof = previous_block['proof']
+		proof = blockchain.proof_of_work(previous_proof)
+		previous_hash = blockchain.hash(previous_block)
+
+		if tipo_bloque == 1:
+
+			block=blockchain.create_block_paciente(proof, previous_hash,request.form['inputNombre'],request.form['inputApellido'])
+
+		elif tipo_bloque == 2:
+
+			block=blockchain.create_block_doctor(proof, previous_hash,request.form['inputNombre'],request.form['inputApellido'])
 		
-	# This function is created
-	# to display the previous block
-	def print_previous_block(self):
-		return self.chain[-1]
+		elif tipo_bloque == 3:
+
+			block=blockchain.create_block_registro_historia(proof, previous_hash,request.form['inputHashPaciente'],request.form['inputHashDoctor'],datetime.now())
+
+		with open('bdJson.json','r+') as file:
+			# First we load existing data into a dict.
+
+			bdJson = json.load(file)
+			# Join new_dat3a with file_data
+			bdJson.append(block)
+			# Sets file's current position at offset.
+			file.seek(0)
+			# convert back to json.
+			json.dump(bdJson, file, indent = 4)
+
+		print(jsonify(block))
 		
 	# This is the function for proof of work
 	# and used to successfully mine the block
@@ -112,47 +169,14 @@ def registrar_paciente():
 
 	if request.method=='POST':
 
-		previous_block = blockchain.print_previous_block()
-		previous_proof = previous_block['proof']
-		proof = blockchain.proof_of_work(previous_proof)
-		previous_hash = blockchain.hash(previous_block)
-
-		block=blockchain.create_block_paciente(proof, previous_hash,request.form['inputNombre'],request.form['inputApellido'])
-
-		response = {'message': 'A block is MINED',
-				'index': block['index'],
-				'timestamp': block['timestamp'],
-				'proof': block['proof'],
-				'previous_hash': block['previous_hash']}
+		blockchain.minar_bloque(1)
 
 		return render_template('registrar_paciente.html')
 		
 	elif request.method=='GET':
+
 		return render_template('registrar_paciente.html')
 
-# Mining a new block
-@app.route('/mine_block', methods=['GET'])
-def mine_block():
-	previous_block = blockchain.print_previous_block()
-	previous_proof = previous_block['proof']
-	proof = blockchain.proof_of_work(previous_proof)
-	previous_hash = blockchain.hash(previous_block)
-	block = blockchain.create_block(proof, previous_hash)
-
-	response = {'message': 'A block is MINED',
-				'index': block['index'],
-				'timestamp': block['timestamp'],
-				'proof': block['proof'],
-				'previous_hash': block['previous_hash']}
-
-	return jsonify(response), 200
-
-# Display blockchain in json format
-@app.route('/get_chain', methods=['GET'])
-def display_chain():
-	response = {'chain': blockchain.chain,
-				'length': len(blockchain.chain)}
-	return jsonify(response), 200
 
 # Check validity of blockchain
 @app.route('/valid', methods=['GET'])
