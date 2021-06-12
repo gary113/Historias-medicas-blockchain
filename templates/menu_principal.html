@@ -10,6 +10,7 @@
       href="{{ url_for('static', filename='favicon.ico') }}"
     />
   </head>
+
   <body>
     <section class="hero is-danger">
       <div class="hero-body">
@@ -19,50 +20,18 @@
 
     <br />
     <br />
+
     <div class="container">
-      <form method="POST">
-        <div class="form-group">
-          <h1 class="title is-1">Registrar Nuevo Paciente</h1>
-          <input
-            class="input"
-            name="inputNombre"
-            type="text"
-            placeholder="Nombre"
-          />
-          <br />
-          <br />
-          <input
-            class="input"
-            name="inputApellido"
-            type="text"
-            placeholder="Apellido"
-          />
-          <br />
-          <br />
-          <input class="input" name="inputDni" type="text" placeholder="DNI" />
-          <br />
-          <br />
-          <input
-            class="input"
-            name="inputNacimiento"
-            type="date"
-            placeholder="Fecha de nacimiento"
-          />
-          <br />
-          <br />
-          <input
-            class="input"
-            name="inputTelefono"
-            type="tel"
-            placeholder="Telefono"
-          />
-          <br />
-          <br />
-          <button class="button" name="btnRegistrarPaciente" type="submit">
-            Registrar
-          </button>
-        </div>
-      </form>
+      <h1 class="title is-4">
+        <a href="registrar_paciente.html"> Registrar Paciente </a>
+      </h1>
+
+      <br />
+      <br />
+
+      <h1 class="title is-4">
+        <a href="busqueda_paciente.html"> Buscar Pacientes </a>
+      </h1>
     </div>
 
     <footer

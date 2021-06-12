@@ -1,32 +1,89 @@
 [
     {
         "index": 1,
-        "timestamp": "2021-05-08 17:59:49.027858",
+        "timestamp": "2021-06-11 19:06:20.696699",
         "proof": 1,
         "previous_hash": 0
     },
     {
         "index": 2,
-        "timestamp": "2021-05-08 18:00:17.340267",
+        "timestamp": "2021-06-11 19:06:47.197713",
         "proof": 20,
-        "previous_hash": "491c171cdbd1acb5a7312011a4dedc91665c20bf6e9707fd3fccba2b4bfef297",
-        "nombre": "Gary",
-        "apellido": "Candia"
+        "previous_hash": "2b257f4f44ee18722f5d706b12270360dbca727d98f7305f033b04c1df883515",
+        "tipo": 1,
+        "nombre": "GARY",
+        "apellido": "CANDIA",
+        "dni": "48060302",
+        "nacimiento": "1993-11-14",
+        "telefono": "951016360"
     },
     {
         "index": 3,
-        "timestamp": "2021-05-08 18:00:41.743696",
+        "timestamp": "2021-06-11 19:07:59.866017",
         "proof": 7,
-        "previous_hash": "c8e4d6d354c5978fd5a1d76e790803af3d46fa27d5bb3d98d653ac8a04fe62d0",
-        "nombre": "leonardo",
-        "apellido": "zambrano"
+        "previous_hash": "3a361c8065614cb14a9fc716bf1b2945bb6807e7ae82751e096455634271a790",
+        "tipo": 1,
+        "nombre": "LEONARDO",
+        "apellido": "ZAMBRANO",
+        "dni": "73045806",
+        "nacimiento": "1998-02-27",
+        "telefono": "945871542"
     },
     {
         "index": 4,
-        "timestamp": "2021-05-08 18:06:10.762542",
+        "timestamp": "2021-06-11 22:01:45.804985",
         "proof": 10,
-        "previous_hash": "75cd4a55d550c7e878544921ecce5fe947fc2c9854b908bdf994b4c89b4f1781",
-        "nombre": "aea",
-        "apellido": "mano"
+        "previous_hash": "1cb919921dc6e24cecaaf8bcd537e2a4b4d866bf5407d7103d01b8ed9d481f72",
+        "tipo": 2,
+        "nombre": "Jordi",
+        "apellido": "Carranza",
+        "dni": "01234567",
+        "telefono": "996668452",
+        "usuario": "jcarranza",
+        "contrasenia": "jcarranza"
+    },
+    {
+        "index": 5,
+        "timestamp": "2021-06-11 22:25:33.338078",
+        "proof": 15,
+        "previous_hash": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
+        "hash_paciente": "cd5c59f11575198ba03ed9583ccb76041f2ab47682d178d6e9855313febe8703",
+        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
+        "tipo": 3,
+        "titulo": "Alergias del paciente",
+        "descripcion": "El paciente es al\u00e9rgico al Paracetamol."
+    },
+    {
+        "index": 6,
+        "timestamp": "2021-06-11 22:27:03.387951",
+        "proof": 21,
+        "previous_hash": "c98be6816fbf840b44fed592ebaed233a7c44669c07fd7e244aaac6e7a75079a",
+        "hash_paciente": "cd5c59f11575198ba03ed9583ccb76041f2ab47682d178d6e9855313febe8703",
+        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
+        "tipo": 3,
+        "titulo": "COVID positivo",
+        "descripcion": "Se le ha suministrado al paciente una dosis de medicamentos para el COVID."
+    },
+    {
+        "index": 7,
+        "timestamp": "2021-06-11 22:35:31.120411",
+        "proof": 4,
+        "previous_hash": "e4807a3cb1c16b55a08cacebb93966209373793a58c44427ff8dff6f20f75081",
+        "hash_paciente": "cd5c59f11575198ba03ed9583ccb76041f2ab47682d178d6e9855313febe8703",
+        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
+        "tipo": 3,
+        "titulo": "Lorem Ipsum",
+        "descripcion": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+    },
+    {
+        "index": 8,
+        "timestamp": "2021-06-11 22:36:16.494803",
+        "proof": 21,
+        "previous_hash": "58dcbcb9b87fd877eaaa7cc83e3a956151c9e2a5a26347c04e78bde61d8dc698",
+        "hash_paciente": "cd5c59f11575198ba03ed9583ccb76041f2ab47682d178d6e9855313febe8703",
+        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
+        "tipo": 3,
+        "titulo": "Lorem Ipsum",
+        "descripcion": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32."
     }
 ]

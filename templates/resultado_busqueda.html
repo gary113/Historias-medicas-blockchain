@@ -10,6 +10,7 @@
       href="{{ url_for('static', filename='favicon.ico') }}"
     />
   </head>
+
   <body>
     <section class="hero is-danger">
       <div class="hero-body">
@@ -17,52 +18,46 @@
       </div>
     </section>
 
-    <br />
-    <br />
     <div class="container">
-      <form method="POST">
-        <div class="form-group">
-          <h1 class="title is-1">Registrar Nuevo Paciente</h1>
-          <input
-            class="input"
-            name="inputNombre"
-            type="text"
-            placeholder="Nombre"
-          />
-          <br />
-          <br />
-          <input
-            class="input"
-            name="inputApellido"
-            type="text"
-            placeholder="Apellido"
-          />
-          <br />
-          <br />
-          <input class="input" name="inputDni" type="text" placeholder="DNI" />
-          <br />
-          <br />
-          <input
-            class="input"
-            name="inputNacimiento"
-            type="date"
-            placeholder="Fecha de nacimiento"
-          />
-          <br />
-          <br />
-          <input
-            class="input"
-            name="inputTelefono"
-            type="tel"
-            placeholder="Telefono"
-          />
-          <br />
-          <br />
-          <button class="button" name="btnRegistrarPaciente" type="submit">
-            Registrar
-          </button>
-        </div>
-      </form>
+      <br />
+      <br />
+      <h1 class="title is-3">Resultados de la búsqueda</h1>
+    </div>
+    <div
+      style="
+        width: 1000px;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+      "
+    >
+      <table
+        class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+      >
+        <thead>
+          <tr>
+            <th><abbr>DNI</abbr></th>
+            <th><abbr>Nombre</abbr></th>
+            <th><abbr>Apellido</abbr></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for paciente in pacientes: %}
+          <tr>
+            <td>
+              <a href="detalle_historia.html?dni={{paciente['dni']}}"
+                >{{paciente['dni']}}</a
+              >
+            </td>
+            <td>{{paciente['nombre']}}</td>
+            <td>{{paciente['apellido']}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
     <footer

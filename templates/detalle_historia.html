@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de historias médicas</title>
+    <link rel="stylesheet" href="../static/assets/bulma/css/bulma.min.css" />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+  </head>
+
+  <body>
+    <section class="hero is-danger">
+      <div class="hero-body">
+        <h1 class="title">Sistema de historias médicas</h1>
+      </div>
+    </section>
+
+    <div class="container">
+      <br />
+      <br />
+      <h1 class="title is-3">Resultados de la búsqueda</h1>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="container">
+      <h1 class="title is-4">Datos del paciente</h1>
+      {{paciente['nombre']}} {{paciente['apellido']}} {{paciente['dni']}}
+
+      <br />
+      <br />
+
+      <table
+        class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+      >
+        <thead>
+          <tr>
+            <th><abbr>Título</abbr></th>
+            <th><abbr>Descripción</abbr></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for linea in historia: %}
+          <tr>
+            <td>{{linea['titulo']}}</td>
+            <td>{{linea['descripcion']}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <br />
+    <br />
+
+    <div>
+      <form
+        class="container"
+        action="detalle_historia.html?dni={{paciente['dni']}}"
+        method="POST"
+      >
+        <h4>Registro de hoy</h4>
+        <br />
+        <input
+          class="input"
+          type="text"
+          name="inputTitulo"
+          placeholder="Título"
+        />
+        <br />
+        <br />
+        <textarea
+          class="textarea"
+          name="inputDescripcion"
+          placeholder="Descripción"
+        ></textarea>
+        <br />
+        <button type="submit" class="button">Registrar linea</button>
+      </form>
+    </div>
+
+    <br />
+    <br />
+
+    <footer
+      class="footer"
+      style="
+        background-image: url(https://www.sydicol.com.co/wp-content/uploads/2017/08/modulo-historias-clinicas.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+      "
+    >
+      <div class="content has-text-centered">
+        <p style="color: cornsilk; font-size: 20px">
+          <b
+            >Sistema de historias médicas con Blockchain por Gary Candia, Luis
+            Suarez y Leonardo Zambrano.</b
+          >
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
