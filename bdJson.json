@@ -85,5 +85,51 @@
         "tipo": 3,
         "titulo": "Lorem Ipsum",
         "descripcion": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32."
+    },
+    {
+        "index": 9,
+        "timestamp": "2021-06-12 12:26:15.451165",
+        "proof": 4,
+        "previous_hash": "6955ca36d1dfe36f3f8d631049959abe31d19cc45db9d0024d2632bb9b1fb19e",
+        "tipo": 1,
+        "nombre": "FRANCISCO",
+        "apellido": "SAGASTI",
+        "dni": "02546658",
+        "nacimiento": "1959-04-02",
+        "telefono": "998854566"
+    },
+    {
+        "index": 10,
+        "timestamp": "2021-06-12 12:28:49.599424",
+        "proof": 21,
+        "previous_hash": "0ede3ec56f711e576d354fc9e04cd35bceb287401b153b1297f4ca29683c7f44",
+        "hash_paciente": "0ede3ec56f711e576d354fc9e04cd35bceb287401b153b1297f4ca29683c7f44",
+        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
+        "tipo": 3,
+        "titulo": "Primer registro",
+        "descripcion": "Registro de prueba sobre historia m\u00e9dica."
+    },
+    {
+        "index": 11,
+        "timestamp": "2021-06-12 17:33:58.295865",
+        "proof": 4,
+        "previous_hash": "5e9a052035082c3587a1180d8bbe78c0c8161d59e2b8e011acabe42925ec6a2c",
+        "tipo": 1,
+        "nombre": "JULIO",
+        "apellido": "GARCIA",
+        "dni": "95445875",
+        "nacimiento": "1990-11-14",
+        "telefono": "95555555"
+    },
+    {
+        "index": 12,
+        "timestamp": "2021-06-12 17:34:42.366162",
+        "proof": 21,
+        "previous_hash": "1e51760994c840efb6c11546e6fd28f3b77787edec2ae3e7d73ee19a85baf7a4",
+        "hash_paciente": "1e51760994c840efb6c11546e6fd28f3b77787edec2ae3e7d73ee19a85baf7a4",
+        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
+        "tipo": 3,
+        "titulo": "primera",
+        "descripcion": "asdadasd sdasdas\r\ndfaf"
     }
 ]

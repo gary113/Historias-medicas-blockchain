@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sistema de historias médicas</title>
-    <link rel="stylesheet" href="../static/assets/bulma/css/bulma.min.css" />
+    <link rel="stylesheet" href="../static/assets/css/bulma.css" />
     <link
       rel="shortcut icon"
       href="{{ url_for('static', filename='favicon.ico') }}"
@@ -34,21 +34,22 @@
           <input
             class="input"
             type="text"
-            name="usuario"
+            name="input_usuario"
             placeholder="Usuario"
           /><br /><br />
           <h4>Contraseña</h4>
           <input
             class="input"
             type="password"
-            name="password"
+            name="input_contrasenia"
             placeholder="Contraseña"
           /><br /><br />
           <button type="submit" class="button">Ingresar</button>
         </div>
       </form>
     </div>
-
+    <br />
+    <br />
     <footer
       class="footer"
       style="

@@ -1,0 +1,19 @@
+@import "../utilities/derived-variables"
+
+$footer-background-color: $scheme-main-bis !default
+$footer-color: false !default
+$footer-padding: 3rem 1.5rem 6rem !default
+
+body
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+
+.footer
+  position: relative
+  margin-top: auto
+  bottom: 0%
+  background-color: $footer-background-color
+  padding: $footer-padding
+  @if $footer-color
+    color: $footer-color
