@@ -1,4 +1,6 @@
-from flask import Flask, redirect, render_template, request, session
+import datetime
+
+from flask import Flask, flash, redirect, render_template, request, session
 
 from Blockchain import Blockchain
 
@@ -13,6 +15,8 @@ blockchain = Blockchain()
 def principal():
     if request.method == 'GET':
 
+        #flash('a ver al cine')
+
         if session.get('usuario') is not None:
             return redirect('menu_principal.html')
         else:
@@ -22,14 +26,25 @@ def principal():
 
         usuario = request.form['input_usuario']
         contrasenia = request.form['input_contrasenia']
+        hash = request.form['input_hash']
 
         for bloque in blockchain.chain[1:]:
             if bloque['tipo'] == 2:
-                if bloque['usuario'] == usuario and bloque['contrasenia'] == contrasenia:
-                    session['usuario'] = usuario
-                    session['contrasenia'] = contrasenia
+                if usuario != "":
+                    if bloque['usuario'] == usuario and bloque['contrasenia'] == contrasenia:
+                        session['usuario'] = usuario
+                        session['contrasenia'] = contrasenia
 
-                    return redirect('menu_principal.html')
+                        return redirect('menu_principal.html')
+                else:
+
+                    if blockchain.hash(bloque) == hash:
+                        session['usuario'] = bloque['usuario']
+                        session['contrasenia'] = bloque['contrasenia']
+
+                        return redirect('menu_principal.html')
+
+        flash('Credenciales incorrectas')
 
         return render_template('iniciar_sesion.html')
 
@@ -46,9 +61,9 @@ def registrar_paciente():
 
     if request.method == 'POST':
 
-        blockchain.minar_bloque(1)
+        dni = request.form['inputDni']
 
-        return redirect('menu_principal.html')
+        return redirect('detalle_historia.html?dni='+dni)
         # return render_template('registrar_paciente.html')
 
     elif request.method == 'GET':
@@ -69,7 +84,14 @@ def menu_principal():
     elif request.method == 'GET':
 
         if session.get('usuario') is not None:
-            return render_template('menu_principal.html')
+
+            for bloque in blockchain.chain[1:]:
+                if bloque['tipo'] == 2:
+                    if bloque['usuario'] == session['usuario']:
+                        bloque_doctor = bloque
+                        hash_doctor = blockchain.hash(bloque_doctor)
+
+            return render_template('menu_principal.html', bloque_doctor=bloque_doctor, hash_doctor=hash_doctor)
         else:
             return redirect('/')
 
@@ -159,17 +181,22 @@ def detalle_historia():
                         paciente = bloque
                         break
 
-            hashPaciente = blockchain.hash(paciente)
+            fecha_nacimiento = paciente['nacimiento'].split('-')
+
+            edad = int((datetime.date.today()-datetime.date(int(fecha_nacimiento[0]), int(
+                fecha_nacimiento[1]), int(fecha_nacimiento[2]))).days/365)
+
+            hash_paciente = blockchain.hash(paciente)
 
             for bloque in blockchain.chain[1:]:
                 if bloque['tipo'] == 3:
-                    if bloque['hash_paciente'] == hashPaciente:
+                    if bloque['hash_paciente'] == hash_paciente:
                         historia.append(bloque)
 
-            return render_template('detalle_historia.html', paciente=paciente, historia=historia)
+            return render_template('detalle_historia.html', paciente=paciente, historia=historia, hash_paciente=hash_paciente, edad=edad)
 
         else:
-            return redirect('iniciar_sesion.html')
+            return redirect('/')
 
 
 '''
@@ -188,4 +215,4 @@ def valid():
 
 if __name__ == "__main__":
 
-    app.run(host='localhost', port=5000, debug=False)
+    app.run(host='localhost', port=5000, debug=True)

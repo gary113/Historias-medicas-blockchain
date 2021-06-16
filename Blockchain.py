@@ -108,6 +108,8 @@ class Blockchain:
 
             json.dump(bdJson, file, indent=4)
 
+        return block
+
         # print(jsonify(block))
 
     def proof_of_work(self, previous_proof):

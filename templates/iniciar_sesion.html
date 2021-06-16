@@ -44,8 +44,27 @@
             name="input_contrasenia"
             placeholder="Contraseña"
           /><br /><br />
-          <button type="submit" class="button">Ingresar</button>
+          <h4>O ingrese su hash</h4>
+          <input
+            class="input"
+            type="text"
+            name="input_hash"
+            placeholder="Hash"
+          /><br /><br />
+          <button type="submit" class="button" data-tooltip="Tooltip Text">
+            Ingresar
+          </button>
         </div>
+
+        {% with mensajes = get_flashed_messages() %} {% if mensajes %} {% for
+        mensaje in mensajes %}
+        <p
+          class="title is-5 has-text-centered"
+          style="color: brown; position: relative; top: 50px"
+        >
+          {{mensaje}}
+        </p>
+        {% endfor %} {% endif %} {% endwith %}
       </form>
     </div>
     <br />

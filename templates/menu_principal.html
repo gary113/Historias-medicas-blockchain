@@ -16,22 +16,29 @@
       <div class="hero-body">
         <span class="title">Sistema de historias médicas</span>
 
-        <a
-          class="title is-4"
-          href="cerrar_sesion.html"
-          style="position: absolute; right: 2.5%; text-decoration: underline"
-          >Cerrar sesión</a
-        >
+        <div class="tooltip" style="position: absolute; right: 5em">
+          <a class="title is-4" href="cerrar_sesion.html"
+            ><img
+              src="../static/cerrar_sesion.png"
+              height="50px"
+              width="50px"
+            />
+          </a>
+          <span class="tooltiptext">Cerrar sesión</span>
+        </div>
+
+        <p class="title" style="position: relative; top: 15px">
+          Bienvenido Dr. {{bloque_doctor['nombre']}}
+          {{bloque_doctor['apellido']}}
+        </p>
+        <p style="font-size: small">Su hash es: {{hash_doctor}}</p>
       </div>
     </section>
 
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-
-    <div class="columns is-centered is-vcentered">
+    <div
+      class="columns is-centered is-vcentered"
+      style="position: relative; top: 8em"
+    >
       <div class="column is-2">
         <h1 class="title is-4">
           <a href="registrar_paciente.html">
