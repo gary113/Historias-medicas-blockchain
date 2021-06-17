@@ -1,135 +1,104 @@
 [
     {
         "index": 1,
-        "timestamp": "2021-06-11 19:06:20.696699",
+        "transactions": {
+            "tipo": 0,
+            "super": 1,
+            "nombres": "Gary",
+            "apellidos": "Candia Nina",
+            "usuario": "gcandia",
+            "contrasenia": "7110eda4d09e062aa5e4a390b0a572ac0d2c0220"
+        },
+        "timestamp": "2021-06-16 11:10:10.843304",
         "proof": 1,
         "previous_hash": 0
     },
     {
         "index": 2,
-        "timestamp": "2021-06-11 19:06:47.197713",
+        "transactions": {
+            "tipo": 2,
+            "nombres": "CARLOS",
+            "apellidos": "FLORES BASHI",
+            "dni": "12345678",
+            "especialidad": "Oftalmolog\u00eda",
+            "telefono": "989898989",
+            "usuario": "cflores",
+            "contrasenia": "011c945f30ce2cbafc452f39840f025693339c42"
+        },
+        "timestamp": "2021-06-16 12:27:29.656704",
         "proof": 20,
-        "previous_hash": "2b257f4f44ee18722f5d706b12270360dbca727d98f7305f033b04c1df883515",
-        "tipo": 1,
-        "nombre": "GARY",
-        "apellido": "CANDIA",
-        "dni": "48060302",
-        "nacimiento": "1993-11-14",
-        "telefono": "951016360"
+        "previous_hash": "c7ea3098245d793f35fbe40271a2bc559a47b95121a866d6c2d7087258cfd2c5"
     },
     {
         "index": 3,
-        "timestamp": "2021-06-11 19:07:59.866017",
+        "transactions": {
+            "tipo": 1,
+            "nombres": "CARLOS",
+            "apellidos": "RAMOS AGUIRRE",
+            "dni": "87654321",
+            "nacimiento": "1966-03-14",
+            "telefono": "989898989"
+        },
+        "timestamp": "2021-06-16 12:30:59.962139",
         "proof": 7,
-        "previous_hash": "3a361c8065614cb14a9fc716bf1b2945bb6807e7ae82751e096455634271a790",
-        "tipo": 1,
-        "nombre": "LEONARDO",
-        "apellido": "ZAMBRANO",
-        "dni": "73045806",
-        "nacimiento": "1998-02-27",
-        "telefono": "945871542"
+        "previous_hash": "44df11aad39e3298a5a032894995100f7bdd68ca9448725cf26df0e96e80d533"
     },
     {
         "index": 4,
-        "timestamp": "2021-06-11 22:01:45.804985",
+        "transactions": {
+            "tipo": 2,
+            "nombres": "JAVIER",
+            "apellidos": "CARRANZA FLORES",
+            "dni": "48598545",
+            "especialidad": "Medicina general",
+            "telefono": "955544558",
+            "usuario": "jcarranza",
+            "contrasenia": "2a6a5a5a357b314f1509692d1f18915d2d271a79"
+        },
+        "timestamp": "2021-06-16 22:20:19.813540",
         "proof": 10,
-        "previous_hash": "1cb919921dc6e24cecaaf8bcd537e2a4b4d866bf5407d7103d01b8ed9d481f72",
-        "tipo": 2,
-        "nombre": "Jordi",
-        "apellido": "Carranza",
-        "dni": "01234567",
-        "telefono": "996668452",
-        "usuario": "jcarranza",
-        "contrasenia": "jcarranza"
+        "previous_hash": "74afaaf5d64cba313b423094c38b9ed5877de2ac9d03460b54f12ed9c3f29f02"
     },
     {
         "index": 5,
-        "timestamp": "2021-06-11 22:25:33.338078",
+        "transactions": {
+            "tipo": 3,
+            "hash_paciente": "74afaaf5d64cba313b423094c38b9ed5877de2ac9d03460b54f12ed9c3f29f02",
+            "hash_doctor": "6aaccdc210370d388b740d6f607457c9484a0695201419a54dbb565afb900f63",
+            "titulo": "COVID positivo",
+            "descripcion": "Se le realiz\u00f3 la prueba r\u00e1pida al paciente y sali\u00f3 positivo",
+            "lugar": "Centro m\u00e9dico Grau"
+        },
+        "timestamp": "2021-06-16 22:40:59.347731",
         "proof": 15,
-        "previous_hash": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
-        "hash_paciente": "cd5c59f11575198ba03ed9583ccb76041f2ab47682d178d6e9855313febe8703",
-        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
-        "tipo": 3,
-        "titulo": "Alergias del paciente",
-        "descripcion": "El paciente es al\u00e9rgico al Paracetamol."
+        "previous_hash": "6aaccdc210370d388b740d6f607457c9484a0695201419a54dbb565afb900f63"
     },
     {
         "index": 6,
-        "timestamp": "2021-06-11 22:27:03.387951",
+        "transactions": {
+            "tipo": 3,
+            "hash_paciente": "74afaaf5d64cba313b423094c38b9ed5877de2ac9d03460b54f12ed9c3f29f02",
+            "hash_doctor": "44df11aad39e3298a5a032894995100f7bdd68ca9448725cf26df0e96e80d533",
+            "titulo": "Conjuntivitis",
+            "descripcion": "Se le recetaron gotas para los ojos.",
+            "lugar": "Posta m\u00e9dica Keiko Fujimori"
+        },
+        "timestamp": "2021-06-16 22:59:31.098572",
         "proof": 21,
-        "previous_hash": "c98be6816fbf840b44fed592ebaed233a7c44669c07fd7e244aaac6e7a75079a",
-        "hash_paciente": "cd5c59f11575198ba03ed9583ccb76041f2ab47682d178d6e9855313febe8703",
-        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
-        "tipo": 3,
-        "titulo": "COVID positivo",
-        "descripcion": "Se le ha suministrado al paciente una dosis de medicamentos para el COVID."
+        "previous_hash": "2ddc64905976fd551e04ab7d831d225cefd5443d44de44bb5cc00006be33a19d"
     },
     {
         "index": 7,
-        "timestamp": "2021-06-11 22:35:31.120411",
+        "transactions": {
+            "tipo": 3,
+            "hash_paciente": "74afaaf5d64cba313b423094c38b9ed5877de2ac9d03460b54f12ed9c3f29f02",
+            "hash_doctor": "44df11aad39e3298a5a032894995100f7bdd68ca9448725cf26df0e96e80d533",
+            "titulo": "Lorem Ipsum",
+            "descripcion": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            "lugar": "Centro m\u00e9dico Lorem Ipsum"
+        },
+        "timestamp": "2021-06-16 23:00:48.398887",
         "proof": 4,
-        "previous_hash": "e4807a3cb1c16b55a08cacebb93966209373793a58c44427ff8dff6f20f75081",
-        "hash_paciente": "cd5c59f11575198ba03ed9583ccb76041f2ab47682d178d6e9855313febe8703",
-        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
-        "tipo": 3,
-        "titulo": "Lorem Ipsum",
-        "descripcion": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-    },
-    {
-        "index": 8,
-        "timestamp": "2021-06-11 22:36:16.494803",
-        "proof": 21,
-        "previous_hash": "58dcbcb9b87fd877eaaa7cc83e3a956151c9e2a5a26347c04e78bde61d8dc698",
-        "hash_paciente": "cd5c59f11575198ba03ed9583ccb76041f2ab47682d178d6e9855313febe8703",
-        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
-        "tipo": 3,
-        "titulo": "Lorem Ipsum",
-        "descripcion": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32."
-    },
-    {
-        "index": 9,
-        "timestamp": "2021-06-12 12:26:15.451165",
-        "proof": 4,
-        "previous_hash": "6955ca36d1dfe36f3f8d631049959abe31d19cc45db9d0024d2632bb9b1fb19e",
-        "tipo": 1,
-        "nombre": "FRANCISCO",
-        "apellido": "SAGASTI",
-        "dni": "02546658",
-        "nacimiento": "1959-04-02",
-        "telefono": "998854566"
-    },
-    {
-        "index": 10,
-        "timestamp": "2021-06-12 12:28:49.599424",
-        "proof": 21,
-        "previous_hash": "0ede3ec56f711e576d354fc9e04cd35bceb287401b153b1297f4ca29683c7f44",
-        "hash_paciente": "0ede3ec56f711e576d354fc9e04cd35bceb287401b153b1297f4ca29683c7f44",
-        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
-        "tipo": 3,
-        "titulo": "Primer registro",
-        "descripcion": "Registro de prueba sobre historia m\u00e9dica."
-    },
-    {
-        "index": 11,
-        "timestamp": "2021-06-12 17:33:58.295865",
-        "proof": 4,
-        "previous_hash": "5e9a052035082c3587a1180d8bbe78c0c8161d59e2b8e011acabe42925ec6a2c",
-        "tipo": 1,
-        "nombre": "JULIO",
-        "apellido": "GARCIA",
-        "dni": "95445875",
-        "nacimiento": "1990-11-14",
-        "telefono": "95555555"
-    },
-    {
-        "index": 12,
-        "timestamp": "2021-06-12 17:34:42.366162",
-        "proof": 21,
-        "previous_hash": "1e51760994c840efb6c11546e6fd28f3b77787edec2ae3e7d73ee19a85baf7a4",
-        "hash_paciente": "1e51760994c840efb6c11546e6fd28f3b77787edec2ae3e7d73ee19a85baf7a4",
-        "hash_doctor": "9241ff6c31e218bfb66041d75134cfa3392178327efb4e76dd4305876ad9ff3e",
-        "tipo": 3,
-        "titulo": "primera",
-        "descripcion": "asdadasd sdasdas\r\ndfaf"
+        "previous_hash": "81fbdd73215c35a300d579155cd614024062c10a4693c46269cca234ab0c62f8"
     }
 ]

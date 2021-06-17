@@ -33,7 +33,7 @@
     <div class="container">
       <form method="POST" autocomplete="off">
         <div class="form-group">
-          <h1 class="title is-1">Registrar Nuevo Paciente</h1>
+          <h1 class="title is-1">Registrar nuevo doctor</h1>
           <input
             class="input"
             name="inputNombres"
@@ -55,9 +55,9 @@
           <br />
           <input
             class="input"
-            name="inputNacimiento"
-            type="date"
-            placeholder="Fecha de nacimiento"
+            name="inputEspecialidad"
+            type="text"
+            placeholder="Especialidad"
           />
           <br />
           <br />
@@ -65,13 +65,27 @@
             class="input"
             name="inputTelefono"
             type="tel"
-            placeholder="Telefono"
+            placeholder="Teléfono"
           />
           <br />
           <br />
-          <button class="button" name="btnRegistrarPaciente" type="submit">
-            Registrar
-          </button>
+          <input
+            class="input"
+            name="inputUsuario"
+            type="text"
+            placeholder="Usuario"
+          />
+          <br />
+          <br />
+          <input
+            class="input"
+            name="inputContrasenia"
+            type="password"
+            placeholder="Contraseña"
+          />
+          <br />
+          <br />
+          <button class="button" type="submit">Registrar</button>
         </div>
       </form>
     </div>

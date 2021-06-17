@@ -10,6 +10,7 @@
       href="{{ url_for('static', filename='favicon.ico') }}"
     />
   </head>
+
   <body>
     <section class="hero is-danger">
       <div class="hero-body">
@@ -25,55 +26,35 @@
           </a>
           <span class="tooltiptext">Cerrar sesión</span>
         </div>
+
+        <p class="title" style="position: relative; top: 15px">
+          Bienvenido Sr. {{bloque_admin['transactions']['nombres']}}
+          {{bloque_admin['transactions']['apellidos']}}
+        </p>
+        <p style="font-size: small">Su hash es: {{hash_admin}}</p>
       </div>
     </section>
 
-    <br />
-    <br />
-    <div class="container">
-      <form method="POST" autocomplete="off">
-        <div class="form-group">
-          <h1 class="title is-1">Registrar Nuevo Paciente</h1>
-          <input
-            class="input"
-            name="inputNombres"
-            type="text"
-            placeholder="Nombres"
-          />
-          <br />
-          <br />
-          <input
-            class="input"
-            name="inputApellidos"
-            type="text"
-            placeholder="Apellidos"
-          />
-          <br />
-          <br />
-          <input class="input" name="inputDni" type="text" placeholder="DNI" />
-          <br />
-          <br />
-          <input
-            class="input"
-            name="inputNacimiento"
-            type="date"
-            placeholder="Fecha de nacimiento"
-          />
-          <br />
-          <br />
-          <input
-            class="input"
-            name="inputTelefono"
-            type="tel"
-            placeholder="Telefono"
-          />
-          <br />
-          <br />
-          <button class="button" name="btnRegistrarPaciente" type="submit">
-            Registrar
-          </button>
-        </div>
-      </form>
+    <div
+      class="columns is-centered is-vcentered"
+      style="position: relative; top: 8em"
+    >
+      <div class="column is-2">
+        <h1 class="title is-4">
+          <a href="registrar_doctor.html">
+            <img src="../static/registrarse.png" width="200" height="200" />
+            <br />Registrar doctor
+          </a>
+        </h1>
+      </div>
+      <div class="column is-2">
+        <h1 class="title is-4">
+          <a href="">
+            <img src="../static/buscar.png" width="200" height="200" />
+            <br />Registrar administrador
+          </a>
+        </h1>
+      </div>
     </div>
 
     <footer

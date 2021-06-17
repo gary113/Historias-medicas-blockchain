@@ -49,12 +49,13 @@
           {% for paciente in pacientes: %}
           <tr>
             <td>
-              <a href="detalle_historia.html?dni={{paciente['dni']}}"
-                >{{paciente['dni']}}</a
+              <a
+                href="detalle_historia.html?dni={{paciente['transactions']['dni']}}"
+                >{{paciente['transactions']['dni']}}</a
               >
             </td>
-            <td>{{paciente['nombre']}}</td>
-            <td>{{paciente['apellido']}}</td>
+            <td>{{paciente['transactions']['nombres']}}</td>
+            <td>{{paciente['transactions']['apellidos']}}</td>
           </tr>
           {% endfor %}
         </tbody>

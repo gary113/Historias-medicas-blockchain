@@ -32,7 +32,7 @@
     <div class="container">
       <br />
       <br />
-      <h1 class="title is-3">Resultados de la búsqueda</h1>
+      <h1 class="title is-3">Detalle de la historia médica</h1>
     </div>
 
     <br />
@@ -43,59 +43,86 @@
       <div class="content">
         <ul>
           <li>Hash: {{hash_paciente}}</li>
-          <li>DNI: {{paciente['dni']}}</li>
-          <li>Nombre: {{paciente['nombre']}}</li>
-          <li>Apellido: {{paciente['apellido']}}</li>
+          <li>DNI: {{paciente['transactions']['dni']}}</li>
+          <li>Nombre: {{paciente['transactions']['nombres']}}</li>
+          <li>Apellido: {{paciente['transactions']['apellidos']}}</li>
           <li>Edad: {{edad}} años</li>
         </ul>
       </div>
-
-      <table
-        class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
-      >
-        <thead>
-          <tr>
-            <th><abbr>Título</abbr></th>
-            <th><abbr>Descripción</abbr></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for linea in historia: %}
-          <tr>
-            <td>{{linea['titulo']}}</td>
-            <td>{{linea['descripcion']}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
     </div>
 
-    <br />
-    <br />
+    {% if historia|count()>0: %}
+
+    <table
+      class="table container is-bordered is-striped is-narrow is-fullwidth"
+      style="margin-top: 1.5em"
+    >
+      <thead class="has-text-centered">
+        <tr>
+          <th style="width: 12%"><abbr>Fecha y hora</abbr></th>
+          <th style="width: 15%"><abbr>Título</abbr></th>
+          <th style="width: 15%"><abbr>Doctor</abbr></th>
+          <th style="width: 15%"><abbr>Especialidad</abbr></th>
+          <th style="width: 15%"><abbr>Centro médico</abbr></th>
+          <th style="width: 28%"><abbr>Descripción</abbr></th>
+        </tr>
+      </thead>
+      <tbody class="has-text-centered">
+        {% for linea in historia: %}
+        <tr>
+          <td>{{linea['timestamp']}}</td>
+          <td>{{linea['transactions']['titulo']}}</td>
+          <td>{{linea['transactions']['nombres_apellidos_doctor']}}</td>
+          <td>{{linea['transactions']['especialidad_doctor']}}</td>
+          <td>{{linea['transactions']['lugar']}}</td>
+          <td class="has-text-justified">
+            {{linea['transactions']['descripcion']}}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% else %}
+
+    <div class="title is-5" style="text-align: center; margin-top: 1.5em">
+      No existen registros
+    </div>
+
+    {% endif %}
 
     <div>
       <form
         class="container"
-        action="detalle_historia.html?dni={{paciente['dni']}}"
+        action="detalle_historia.html?dni={{paciente['transactions']['dni']}}"
         method="POST"
         autocomplete="off"
       >
-        <h4>Registro de hoy</h4>
-        <br />
+        <strong>Registro de hoy</strong>
+
         <input
           class="input"
           type="text"
           name="inputTitulo"
           placeholder="Título"
+          style="margin-top: 1.5em; margin-bottom: 1.5em"
         />
-        <br />
-        <br />
+
+        <input
+          class="input"
+          type="text"
+          name="inputLugar"
+          placeholder="Centro médico"
+          style="margin-bottom: 1.5em"
+        />
+
         <textarea
           class="textarea"
           name="inputDescripcion"
           placeholder="Descripción"
+          style="margin-bottom: 1.5em"
         ></textarea>
-        <br />
+
         <button type="submit" class="button">Registrar linea</button>
       </form>
     </div>
