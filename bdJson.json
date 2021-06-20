@@ -100,5 +100,35 @@
         "timestamp": "2021-06-16 23:00:48.398887",
         "proof": 4,
         "previous_hash": "81fbdd73215c35a300d579155cd614024062c10a4693c46269cca234ab0c62f8"
+    },
+    {
+        "index": 8,
+        "transactions": {
+            "tipo": 3,
+            "hash_paciente": "74afaaf5d64cba313b423094c38b9ed5877de2ac9d03460b54f12ed9c3f29f02",
+            "hash_doctor": "6aaccdc210370d388b740d6f607457c9484a0695201419a54dbb565afb900f63",
+            "titulo": "Generico",
+            "descripcion": "ejemplo de historia",
+            "lugar": "Centro m\u00e9dico San Luis"
+        },
+        "timestamp": "2021-06-19 18:10:25.063646",
+        "proof": 21,
+        "previous_hash": "4fae13fc96f89f28d814abd2c43a1bdb752167236fd4726f8c279f07f484be26"
+    },
+    {
+        "index": 9,
+        "transactions": {
+            "tipo": 2,
+            "nombres": "LUIS",
+            "apellidos": "CABRERA",
+            "dni": "485898585",
+            "especialidad": "Oftalmologia",
+            "telefono": "95989898989",
+            "usuario": "lcabrera",
+            "contrasenia": "7110eda4d09e062aa5e4a390b0a572ac0d2c0220"
+        },
+        "timestamp": "2021-06-19 18:12:27.270359",
+        "proof": 4,
+        "previous_hash": "14d97f9f770ca9c95871f1b1f0a93709c54d69ac7c5db1f51bbc94312093b4d4"
     }
 ]

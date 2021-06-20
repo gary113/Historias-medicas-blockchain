@@ -74,7 +74,7 @@ def iniciar_administrador():
                 else:
 
                     if blockchain.hash(bloque) == hash:
-                        session['usuario'] = usuario
+                        session['usuario'] = bloque['transactions']['usuario']
                         session['tipo'] = 'admin'
 
                         return redirect('administrador_principal.html')
