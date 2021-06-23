@@ -1,8 +1,7 @@
-import hashlib
-
 from flask import Blueprint, redirect, render_template, request, session
 
-from src.Blockchain import blockchain
+from src.utilidad import (hashear_bloque, hashear_contrasenia,
+                          nueva_transaccion, obtener_cadena)
 
 bp_admin = Blueprint('bp_admin', __name__)
 
@@ -18,13 +17,12 @@ def registrar_doctor():
         especialidad = request.form['inputEspecialidad']
         telefono = request.form['inputTelefono']
         usuario = request.form['inputUsuario']
-        contrasenia = hashlib.sha1(
-            request.form['inputContrasenia'].encode('utf-8')).hexdigest()
+        contrasenia = hashear_contrasenia(request.form['inputContrasenia'])
 
-        datos = {'nombres': nombres, 'apellidos': apellidos,
+        datos = {'tipo': 2, 'nombres': nombres, 'apellidos': apellidos,
                  'dni': dni, 'especialidad': especialidad, 'telefono': telefono, 'usuario': usuario, 'contrasenia': contrasenia}
 
-        blockchain.minar_bloque(2, datos)
+        nueva_transaccion(datos)
 
         return redirect('administrador_principal.html')
 
@@ -36,22 +34,20 @@ def registrar_doctor():
             return redirect('administrador.html')
 
 
-@bp_admin.route('/administrador_principal.html', methods=['GET', 'POST'])
+@bp_admin.route('/administrador_principal.html', methods=['GET'])
 def administrador_principal():
 
-    if request.method == 'POST':
+    cadena = obtener_cadena()
 
-        pass
-
-    elif request.method == 'GET':
+    if request.method == 'GET':
 
         if session.get('usuario') is not None and session['tipo'] == 'admin':
 
-            for bloque in blockchain.chain:
+            for bloque in cadena:
                 if bloque['transactions']['tipo'] == 0:
                     if bloque['transactions']['usuario'] == session['usuario']:
                         bloque_admin = bloque
-                        hash_admin = blockchain.hash(bloque_admin)
+                        hash_admin = hashear_bloque(bloque_admin)
 
             return render_template('administrador_principal.html', bloque_admin=bloque_admin, hash_admin=hash_admin)
         else:

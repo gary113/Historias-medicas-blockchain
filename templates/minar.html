@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de historias médicas</title>
+    <link rel="stylesheet" href="../static/assets/css/bulma.css" />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+  </head>
+
+  <body>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="container">
+      <article class="message is-success">
+        <div class="message-header">
+          <p>Mensaje</p>
+          <form method="POST">
+            <button
+              name="btn_actualizar"
+              type="submit"
+              class="delete"
+              aria-label="delete"
+            ></button>
+          </form>
+        </div>
+        <div class="message-body">
+          <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </article>
+
+      {% endif %} {% endwith %}
+      <!---->
+      {% if transacciones|count()>0: %}
+      <div class="content">
+        Existen {{transacciones|count()}} transacciones pendientes para minar
+      </div>
+      <form method="POST">
+        <button name="btn_minar" type="submit" class="button">Minar</button>
+      </form>
+      {% else %}
+
+      <div class="title is-5" style="text-align: center; margin-top: 1.5em">
+        No existen transacciones para minar
+      </div>
+
+      {% endif %}
+    </div>
+  </body>
+</html>

@@ -1,8 +1,6 @@
-import hashlib
-
 from flask import Blueprint, redirect, render_template, request, session
 
-from src.Blockchain import blockchain
+from src.utilidad import hashear_bloque, hashear_contrasenia, obtener_cadena
 
 bp_sesion = Blueprint('bp_sesion', __name__)
 
@@ -20,11 +18,12 @@ def principal():
     elif request.method == 'POST':
 
         usuario = request.form['input_usuario']
-        contrasenia = hashlib.sha1(
-            request.form['input_contrasenia'].encode('utf-8')).hexdigest()
+        contrasenia = hashear_contrasenia(request.form['input_contrasenia'])
         hash = request.form['input_hash']
 
-        for bloque in blockchain.chain[1:]:
+        blockchain = obtener_cadena()
+
+        for bloque in blockchain[1:]:
             if bloque['transactions']['tipo'] == 2:
                 if usuario != "":
                     if bloque['transactions']['usuario'] == usuario and bloque['transactions']['contrasenia'] == contrasenia:
@@ -34,7 +33,7 @@ def principal():
                         return redirect('menu_principal.html')
                 else:
 
-                    if blockchain.hash(bloque) == hash:
+                    if hashear_bloque(bloque) == hash:
                         session['usuario'] = bloque['transactions']['usuario']
                         session['tipo'] = 'doctor'
 
@@ -48,7 +47,13 @@ def principal():
 @bp_sesion.route('/administrador.html', methods=['GET', 'POST'])
 @bp_sesion.route('/administrador', methods=['GET', 'POST'])
 def iniciar_administrador():
+
+    cadena = obtener_cadena()
+
     if request.method == 'GET':
+
+        print(session.get('usuario'))
+        # print(session['tipo'])
 
         if session.get('usuario') is not None and session['tipo'] == 'admin':
             return redirect('administrador_principal.html')
@@ -58,12 +63,11 @@ def iniciar_administrador():
     elif request.method == 'POST':
 
         usuario = request.form['input_usuario']
-        contrasenia = hashlib.sha1(
-            request.form['input_contrasenia'].encode('utf-8')).hexdigest()
+        contrasenia = hashear_contrasenia(request.form['input_contrasenia'])
 
         hash = request.form['input_hash']
 
-        for bloque in blockchain.chain:
+        for bloque in cadena:
             if bloque['transactions']['tipo'] == 0:
                 if usuario != "":
                     if bloque['transactions']['usuario'] == usuario and bloque['transactions']['contrasenia'] == contrasenia:
@@ -73,7 +77,7 @@ def iniciar_administrador():
                         return redirect('administrador_principal.html')
                 else:
 
-                    if blockchain.hash(bloque) == hash:
+                    if hashear_bloque(bloque) == hash:
                         session['usuario'] = bloque['transactions']['usuario']
                         session['tipo'] = 'admin'
 

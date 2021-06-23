@@ -34,26 +34,53 @@
         <p style="font-size: small">Su hash es: {{hash_doctor}}</p>
       </div>
     </section>
+    <br />
+    <br />
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="container">
+      <div class="content">
+        <article class="message is-success">
+          <div class="message-header">
+            <p>Mensaje</p>
+            <form method="POST">
+              <button
+                name="btn_actualizar"
+                type="submit"
+                class="delete"
+                aria-label="delete"
+              ></button>
+            </form>
+          </div>
+          <div class="message-body">
+            <ul class="flashes">
+              {% for message in messages %}
+              <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </article>
 
-    <div
-      class="columns is-centered is-vcentered"
-      style="position: relative; top: 8em"
-    >
-      <div class="column is-2">
-        <h1 class="title is-4">
-          <a href="registrar_paciente.html">
-            <img src="../static/registrarse.png" width="200" height="200" />
-            <br />Registrar Paciente
-          </a>
-        </h1>
+        {% endif %} {% endwith %}
       </div>
-      <div class="column is-2">
-        <h1 class="title is-4">
-          <a href="busqueda_paciente.html">
-            <img src="../static/buscar.png" width="200" height="200" />
-            <br />Buscar Pacientes
-          </a>
-        </h1>
+    </div>
+    <!---->
+
+    <div class="columns is-vcentered content">
+      <div class="column has-text-centered is-2 is-offset-4">
+        <a href="registrar_paciente.html">
+          <img src="../static/registrarse.png" width="200" height="200" />
+          <div class="is-tittle" style="font-size: larger; font-weight: bold">
+            Registrar Paciente
+          </div>
+        </a>
+      </div>
+      <div class="column has-text-centered is-2">
+        <a href="busqueda_paciente.html">
+          <img src="../static/buscar.png" width="200" height="200" />
+          <div class="is-tittle" style="font-size: larger; font-weight: bold">
+            Buscar Pacientes
+          </div>
+        </a>
       </div>
     </div>
 

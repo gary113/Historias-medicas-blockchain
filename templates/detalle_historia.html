@@ -29,9 +29,39 @@
       </div>
     </section>
 
+    <br />
+    <br />
+    {% with messages = get_flashed_messages() %} {% if messages %}
     <div class="container">
+      <div class="content">
+        <article class="message is-success">
+          <div class="message-header">
+            <p>Mensaje</p>
+            <form method="POST">
+              <button
+                name="btn_actualizar"
+                type="submit"
+                class="delete"
+                aria-label="delete"
+              ></button>
+            </form>
+          </div>
+          <div class="message-body">
+            <ul class="flashes">
+              {% for message in messages %}
+              <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </article>
+
+        {% endif %} {% endwith %}
+      </div>
       <br />
-      <br />
+    </div>
+    <!---->
+
+    <div class="container">
       <h1 class="title is-3">Detalle de la historia médica</h1>
     </div>
 
@@ -123,7 +153,9 @@
           style="margin-bottom: 1.5em"
         ></textarea>
 
-        <button type="submit" class="button">Registrar linea</button>
+        <button type="submit" name="btn_registrar" class="button">
+          Registrar linea
+        </button>
       </form>
     </div>
 
