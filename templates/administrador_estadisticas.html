@@ -26,45 +26,30 @@
           </a>
           <span class="tooltiptext">Cerrar sesión</span>
         </div>
-
-        <p class="title" style="position: relative; top: 15px">
-          Bienvenido Sr. {{bloque_admin['transactions']['nombres']}}
-          {{bloque_admin['transactions']['apellidos']}}
-        </p>
-        <p style="font-size: small">Su hash es: {{hash_admin}}</p>
       </div>
     </section>
-
-    <div
-      class="columns is-centered is-vcentered"
-      style="position: relative; top: 8em"
-    >
-      <div class="column is-2">
-        <h1 class="title has-text-centered">
-          <a href="registrar_doctor.html">
-            <img src="../static/registrarse.png" width="200" height="200" />
-            <br />Registrar doctor
-          </a>
-        </h1>
-      </div>
-      <div class="column is-2">
-        <h1 class="title has-text-centered">
-          <a href="registrar_administrador.html">
-            <img src="../static/registrar_admin.jpg" width="200" height="200" />
-            <br />Registrar administrador
-          </a>
-        </h1>
-      </div>
-      <div class="column is-2">
-        <h1 class="title has-text-centered">
-          <a href="administrador_estadisticas.html">
-            <img src="../static/estadisticas.png" width="200" height="200" />
-            <br />Estadísticas
-          </a>
-        </h1>
-      </div>
+    <div class="container">
+      <table
+        class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+      >
+        <thead>
+          <tr>
+            <th><abbr>Nombre</abbr></th>
+            <th><abbr>Especialidad</abbr></th>
+            <th><abbr>Cantidad</abbr></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for doctor in top_doctores[:10]: %}
+          <tr>
+            <td>{{doctor['nombre_completo']}}</td>
+            <td>{{doctor['especialidad']}}</td>
+            <td>{{doctor['cantidad']}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-
     <footer
       class="footer"
       style="
