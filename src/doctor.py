@@ -2,7 +2,8 @@ import datetime
 
 from flask import Blueprint, flash, redirect, render_template, request, session
 
-from src.utilidad import hashear_bloque, nueva_transaccion, obtener_cadena
+from src.utilidad import (hashear_bloque, nueva_transaccion,
+                          obtener_cadena_local)
 
 bp_doctor = Blueprint('bp_doctor', __name__)
 
@@ -40,7 +41,7 @@ def registrar_paciente():
 @bp_doctor.route('/menu_principal.html', methods=['GET', 'POST'])
 def menu_principal():
 
-    cadena = obtener_cadena()
+    cadena = obtener_cadena_local()
 
     for bloque in cadena[1:]:
 
@@ -64,7 +65,7 @@ def menu_principal():
 @bp_doctor.route('/busqueda_paciente.html', methods=['GET', 'POST'])
 def busqueda_paciente():
 
-    cadena = obtener_cadena()
+    cadena = obtener_cadena_local()
 
     if request.method == 'POST':
 
@@ -108,7 +109,7 @@ def resultado_busqueda():
 @bp_doctor.route('/detalle_historia.html', methods=['GET', 'POST'])
 def detalle_historia():
 
-    cadena = obtener_cadena()
+    cadena = obtener_cadena_local()
 
     for bloque in cadena[1:]:
         if bloque['transactions']['tipo'] == 2:
@@ -145,45 +146,43 @@ def detalle_historia():
 
         return redirect('detalle_historia.html?dni='+dni)
 
-    elif request.method == 'GET':
+    if session.get('usuario') is not None and session['tipo'] == 'doctor':
 
-        if session.get('usuario') is not None and session['tipo'] == 'doctor':
+        lineasHistoria = []
+        dni = request.args.get('dni')
 
-            lineasHistoria = list()
-            dni = request.args.get('dni')
+        for bloque in cadena[1:]:
+            if bloque['transactions']['tipo'] == 1:
+                if bloque['transactions']['dni'] == dni:
+                    paciente = bloque
+                    break
+
+        hash_paciente = hashear_bloque(paciente)
+
+        fecha_nacimiento = paciente['transactions']['nacimiento'].split(
+            '-')
+
+        edad = int((datetime.date.today()-datetime.date(int(fecha_nacimiento[0]), int(
+            fecha_nacimiento[1]), int(fecha_nacimiento[2]))).days/365)
+
+        for bloque in cadena[1:]:
+            if bloque['transactions']['tipo'] == 3:
+                if bloque['transactions']['hash_paciente'] == hash_paciente:
+                    lineasHistoria.append(bloque)
+
+        for linea in lineasHistoria:
+
+            linea['timestamp'] = linea['timestamp'][:16]
 
             for bloque in cadena[1:]:
-                if bloque['transactions']['tipo'] == 1:
-                    if bloque['transactions']['dni'] == dni:
-                        paciente = bloque
+                if bloque['transactions']['tipo'] == 2:
+                    if linea['transactions']['hash_doctor'] == hashear_bloque(bloque):
+                        linea['transactions']['nombres_apellidos_doctor'] = bloque['transactions']['nombres'] + \
+                            ' ' + bloque['transactions']['apellidos']
+                        linea['transactions']['especialidad_doctor'] = bloque['transactions']['especialidad']
                         break
 
-            hash_paciente = hashear_bloque(paciente)
+        return render_template('detalle_historia.html', paciente=paciente, historia=lineasHistoria, hash_paciente=hash_paciente, edad=edad)
 
-            fecha_nacimiento = paciente['transactions']['nacimiento'].split(
-                '-')
-
-            edad = int((datetime.date.today()-datetime.date(int(fecha_nacimiento[0]), int(
-                fecha_nacimiento[1]), int(fecha_nacimiento[2]))).days/365)
-
-            for bloque in cadena[1:]:
-                if bloque['transactions']['tipo'] == 3:
-                    if bloque['transactions']['hash_paciente'] == hash_paciente:
-                        lineasHistoria.append(bloque)
-
-            for linea in lineasHistoria:
-
-                linea['timestamp'] = linea['timestamp'][:16]
-
-                for bloque in cadena[1:]:
-                    if bloque['transactions']['tipo'] == 2:
-                        if linea['transactions']['hash_doctor'] == hashear_bloque(bloque):
-                            linea['transactions']['nombres_apellidos_doctor'] = bloque['transactions']['nombres'] + \
-                                ' ' + bloque['transactions']['apellidos']
-                            linea['transactions']['especialidad_doctor'] = bloque['transactions']['especialidad']
-                            break
-
-            return render_template('detalle_historia.html', paciente=paciente, historia=lineasHistoria, hash_paciente=hash_paciente, edad=edad)
-
-        else:
-            return redirect('iniciar_sesion.html')
+    else:
+        return redirect('iniciar_sesion.html')

@@ -1,11 +1,14 @@
 import datetime
 import hashlib
 import json
-import socket
+import logging
 
 import requests
-from flask import Flask, render_template, request
-from flask.helpers import flash
+from flask import Flask, flash, render_template, request
+
+from src.utilidad import (PUERTO_BLOCKCHAIN, RUTA, conseguir_ip_local,
+                          hacer_ping, hashear_bloque, obtener_cadena_local,
+                          obtener_cadena_remota)
 
 
 class Blockchain:
@@ -13,20 +16,17 @@ class Blockchain:
     def __init__(self):
 
         self.dificultad_prueba = 3
+        self.ip_local = conseguir_ip_local()
+        self.peers = self.escanear_nodos()
         self.transacciones = []
-        self.peers = []
-        self.ip_local = self.conseguir_ip_local()
-        #self.ip_local = '192.168.101.8'
         self.chain = []
-
-        self.escanear_nodos()
 
         # Leer cadena local
         try:
 
-            with open('bdJson.json', 'r') as f:
-                self.chain = json.loads(f.read())
+            self.chain = obtener_cadena_local()
 
+        # Si no existe cadena local
         except:
 
             block = {'index': len(self.chain) + 1,
@@ -48,8 +48,7 @@ class Blockchain:
 
             for ip in self.peers:
                 if ip != self.ip_local:
-                    cadena_remota = requests.get(
-                        'http://'+ip+':80/cadena').json()
+                    cadena_remota = obtener_cadena_remota(ip)
 
                     if self.validar_cadena(cadena_remota):
                         self.chain = cadena_remota
@@ -57,6 +56,8 @@ class Blockchain:
 
             with open('bdJson.json', 'w') as file:
                 json.dump(self.chain, file, indent=2)
+
+            self.repartir_nodos()
 
     def crear_bloque_administrador(self, proof, previous_hash, datos):
 
@@ -168,21 +169,17 @@ class Blockchain:
 
         with open('bdJson.json', 'r+') as file:
 
-            bdJson = json.load(file)
-            bdJson.append(bloque)
+            bd_json = json.load(file)
+            bd_json.append(bloque)
             file.seek(0)
 
-            json.dump(bdJson, file, indent=4)
+            json.dump(bd_json, file, indent=2)
 
-        print('Bloque minado correctamente:')
-        print(json.dumps(bloque, indent=1))
+        print('Bloque minado correctamente.')
 
     def proof_of_work(self, previous_proof):
         new_proof = 1
         check_proof = False
-
-        print('Realizando prueba de trabajo de dificultad ',
-              self.dificultad_prueba, ' ...')
 
         while check_proof is False:
 
@@ -196,51 +193,49 @@ class Blockchain:
         return (new_proof)
 
     def hash(self, block):
-        encoded_block = json.dumps(block, sort_keys=True).encode()
-        return hashlib.sha256(encoded_block).hexdigest()
-
-    def conseguir_ip_local(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        try:
-            s.connect(('10.255.255.255', 1))
-            IP = s.getsockname()[0]
-        except Exception:
-            IP = '127.0.0.1'
-        finally:
-            s.close()
-
-        print('Ip local: '+IP)
-        return IP
+        return hashlib.sha256(str(block).encode('utf-8')).hexdigest()
 
     def escanear_nodos(self):
 
-        puerta_enlace = '192.168.101.1'
-        net1 = puerta_enlace.split('.')
-        a = '.'
+        print('Buscando nodos activos en la red...')
 
-        net2 = net1[0] + a + net1[1] + a + net1[2] + a
+        nodos_encontrados = []
+        nodos_encontrados.append(self.ip_local)
+        puerta_enlace = '192.168.101.'
         inicio = 2
-        fin = 254+1
+        fin = 255
+        contador = inicio+1
 
         for ip in range(inicio, fin):
 
-            ip = net2 + str(ip)
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            socket.setdefaulttimeout(0.01)
+            if (hacer_ping(puerta_enlace+str(ip))):
+                print(puerta_enlace+str(ip)+':' +
+                      PUERTO_BLOCKCHAIN, "encontrado")
+                nodos_encontrados.append(puerta_enlace+str(ip))
 
-            if (s.connect_ex((ip, 80)) == 0):
-                print(ip+':80', "is live")
-                self.peers.append(ip)
+            print(' ', int(contador*100/fin), '%', end='\r')
+            contador += 1
 
-            s.close()
+        print('\nEscaneo finalizado.')
+        print('Lista de nodos:')
+        print(nodos_encontrados)
+
+        return nodos_encontrados
 
     def validar_cadena(self, cadena):
+
+        print('Validando integridad de la cadena...')
+
         previous_block = cadena[0]
         block_index = 1
 
         while block_index < len(cadena):
             bloque = cadena[block_index]
             if bloque['previous_hash'] != self.hash(previous_block):
+                print(block_index)
+                print(bloque['previous_hash'])
+                print(self.hash(previous_block))
+                print('Cadena corrupta.')
                 return False
 
             previous_proof = previous_block['proof']
@@ -250,21 +245,44 @@ class Blockchain:
                 str(previous_proof**2+proof).encode()).hexdigest()
 
             if not hash_operation.startswith('0'*self.dificultad_prueba):
+                print('En la prueba de trabajo')
+                print('Cadena corrupta.')
                 return False
 
             previous_block = bloque
             block_index += 1
 
+        print('Cadena validada correctamente.')
         return True
 
+    def repartir_nodos(self):
+        for ip in self.peers:
+            if ip != self.ip_local:
 
-blockchain = Blockchain()
+                try:
+
+                    requests.post(RUTA.format(
+                        ip, PUERTO_BLOCKCHAIN, '/actualizar_nodos'), json={'datos': self.peers})
+
+                except:
+                    blockchain.peers.remove(ip)
+
 
 app = Flask(__name__)
 app.secret_key = 'secreto'
 
+log = logging.getLogger('werkzeug')
+log.disabled = True
 
-@app.route('/cadena', methods=['GET', 'POST'])
+blockchain = Blockchain()
+
+
+@app.route('/verificar_conexion', methods=['GET'])
+def verificar_conexion():
+    return "Success", 200
+
+
+@ app.route('/cadena', methods=['GET', 'POST'])
 def obtener_cadena():
 
     if request.method == 'POST':
@@ -278,7 +296,7 @@ def obtener_cadena():
     return json.dumps(blockchain.chain)
 
 
-@app.route('/agregar_transaccion', methods=['POST'])
+@ app.route('/agregar_transaccion', methods=['POST'])
 def agregar_transaccion():
 
     datos = request.get_json()
@@ -287,13 +305,18 @@ def agregar_transaccion():
 
     for ip in blockchain.peers:
         if ip != blockchain.ip_local:
-            requests.post('http://'+ip+'80:/actualizar_transacciones',
-                          json=blockchain.transacciones)
+
+            try:
+                requests.post(RUTA.format(
+                    ip, PUERTO_BLOCKCHAIN, '/actualizar_transacciones'), json=blockchain.transacciones)
+
+            except:
+                blockchain.peers.remove(ip)
 
     return "Success", 201
 
 
-@app.route('/actualizar_transacciones', methods=['POST'])
+@ app.route('/actualizar_transacciones', methods=['POST'])
 # Crea la transacción y la deja lista para ser minada
 def actualizar_transacciones():
 
@@ -303,8 +326,22 @@ def actualizar_transacciones():
     return "Success", 201
 
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/minar', methods=['GET', 'POST'])
+@app.route('/actualizar_nodos', methods=['POST'])
+def actualizar_nodos():
+
+    print('Actualizando nodos...')
+
+    datos = request.get_json()
+    blockchain.peers = datos['datos']
+
+    print('Lista de nodos actualizada:')
+    print(blockchain.peers)
+
+    return "Success", 201
+
+
+@ app.route('/', methods=['GET', 'POST'])
+@ app.route('/minar', methods=['GET', 'POST'])
 # Para minar las transacciones pendientes
 def minar():
 
@@ -314,17 +351,23 @@ def minar():
 
         print('Verificando integridad de la cadena local...')
 
-        if not blockchain.validar_cadena(blockchain.chain):
+        if not blockchain.validar_cadena(obtener_cadena_local()):
             print('Integridad de la cadena no conforme, sincronizandose con la red...')
 
             for ip in blockchain.peers:
                 if ip != blockchain.ip_local:
-                    cadena_remota = requests.get(
-                        'http://'+ip+':80/cadena').json()
-                    if blockchain.validar_cadena(cadena_remota):
-                        blockchain.chain = cadena_remota
-                        actualizado = True
-                        break
+                    try:
+                        cadena_remota = obtener_cadena_remota(ip)
+                        if blockchain.validar_cadena(cadena_remota):
+                            blockchain.chain = cadena_remota
+
+                            with open('bdJson.json', 'w') as file:
+                                json.dump(blockchain.chain, file, indent=2)
+
+                            actualizado = True
+                            break
+                    except:
+                        blockchain.peers.remove(ip)
 
             if not actualizado:
                 print('No hay nodos válidos en la red, espere la sincronización.')
@@ -332,7 +375,9 @@ def minar():
 
                 return render_template('minar.html', transacciones=blockchain.transacciones)
 
-        print('Integridad de la cadena conforme.')
+        else:
+
+            print('Integridad de la cadena conforme.')
 
         for transaccion in blockchain.transacciones:
             blockchain.minar_bloque(transaccion['tipo'], transaccion)
@@ -343,11 +388,18 @@ def minar():
 
         for ip in blockchain.peers:
             if ip != blockchain.ip_local:
-                requests.post('http://'+ip+':80/cadena', json=blockchain.chain)
+
+                try:
+                    requests.post(RUTA.format(ip, PUERTO_BLOCKCHAIN,
+                                              '/cadena'), json=blockchain.chain)
+                except:
+                    blockchain.peers.remove(ip)
 
         return render_template('minar.html', transacciones=blockchain.transacciones)
 
     return render_template('minar.html', transacciones=blockchain.transacciones)
 
 
-app.run(host="0.0.0.0", port=80, debug=False)
+if __name__ == '__main__':
+
+    app.run(host="0.0.0.0", port=int(PUERTO_BLOCKCHAIN), debug=False)

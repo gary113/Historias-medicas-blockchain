@@ -10,10 +10,11 @@
       href="{{ url_for('static', filename='favicon.ico') }}"
     />
   </head>
+
   <body>
     <section class="hero is-danger">
       <div class="hero-body">
-        <a href="menu_principal.html">
+        <a href="administrador_estadisticas.html">
           <img src="../static/atras.png" width="50" height="50" />
         </a>
         <span class="title">Sistema de historias médicas</span>
@@ -31,41 +32,47 @@
       </div>
     </section>
 
-    <br />
-    <br />
     <div class="container">
-      <form action="busqueda_paciente.html" method="POST" autocomplete="off">
-        <div class="form-group">
-          <h1 class="title is-1">Búsqueda de paciente</h1>
-          <input
-            class="input"
-            name="inputNombre"
-            type="text"
-            placeholder="Nombre"
-          />
-          <br />
-          <br />
-          <input
-            class="input"
-            name="inputApellido"
-            type="text"
-            placeholder="Apellido"
-          />
-          <br />
-          <br />
-          <input class="input" name="inputDni" type="text" placeholder="DNI" />
-          <br />
-          <br />
-          <button class="button" name="btnBuscarPaciente" type="submit">
-            Buscar
-          </button>
-        </div>
+      <div class="title is-5" style="margin-bottom: 2em; margin-top: 2em">
+        Digite la cantidad de centros médicos:
+      </div>
+      <form method="POST">
+        <input
+          class="input"
+          type="text"
+          placeholder="cantidad"
+          name="cantidad_top"
+        />
+        <button
+          class="button"
+          type="submit"
+          style="position: absolute; right: 0%"
+        >
+          Mostrar
+        </button>
       </form>
+
+      <table
+        class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+        style="margin-top: 2em; margin-bottom: 2em"
+      >
+        <thead>
+          <tr>
+            <th><abbr>Centro médico</abbr></th>
+            <th><abbr>Cantidad</abbr></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lugar in top_lugares: %}
+          <tr>
+            <td>{{lugar['lugar']}}</td>
+            <td>{{lugar['cantidad']}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <img src="{{ruta_imagen}}" />
     </div>
-
-    <br />
-    <br />
-
     <footer
       class="footer"
       style="
