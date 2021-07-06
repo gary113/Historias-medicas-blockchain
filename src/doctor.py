@@ -2,12 +2,10 @@ import datetime
 
 from flask import Blueprint, flash, redirect, render_template, request, session
 
-from src.utilidad import (hashear_bloque, nueva_transaccion,
+from src.utilidad import (MENSAJE_TRANSACCION, hashear, nueva_transaccion,
                           obtener_cadena_local)
 
 bp_doctor = Blueprint('bp_doctor', __name__)
-
-MENSAJE_TRANSACCION = 'Transacción registrada correctamente'
 
 
 @bp_doctor.route('/registrar_paciente.html', methods=['GET', 'POST'])
@@ -47,7 +45,7 @@ def menu_principal():
 
         if bloque['transactions']['tipo'] == 2 and bloque['transactions']['usuario'] == session['usuario']:
             bloque_doctor = bloque
-            hash_doctor = hashear_bloque(bloque_doctor)
+            hash_doctor = hashear(bloque_doctor)
 
     if request.method == 'POST':
 
@@ -117,7 +115,7 @@ def detalle_historia():
                 doctor = bloque
                 break
 
-    hash_doctor = hashear_bloque(doctor)
+    hash_doctor = hashear(doctor['transactions'])
 
     if request.method == 'POST':
 
@@ -135,7 +133,7 @@ def detalle_historia():
                         paciente = bloque
                         break
 
-            hash_paciente = hashear_bloque(paciente)
+            hash_paciente = hashear(paciente['transactions'])
 
             datosAdicionales = {'tipo': 3, 'hash_paciente': hash_paciente, 'hash_doctor': hash_doctor,
                                 'titulo': titulo, 'descripcion': descripcion, 'lugar': lugar}
@@ -157,7 +155,7 @@ def detalle_historia():
                     paciente = bloque
                     break
 
-        hash_paciente = hashear_bloque(paciente)
+        hash_paciente = hashear(paciente['transactions'])
 
         fecha_nacimiento = paciente['transactions']['nacimiento'].split(
             '-')
@@ -176,7 +174,7 @@ def detalle_historia():
 
             for bloque in cadena[1:]:
                 if bloque['transactions']['tipo'] == 2:
-                    if linea['transactions']['hash_doctor'] == hashear_bloque(bloque):
+                    if linea['transactions']['hash_doctor'] == hashear(bloque['transactions']):
                         linea['transactions']['nombres_apellidos_doctor'] = bloque['transactions']['nombres'] + \
                             ' ' + bloque['transactions']['apellidos']
                         linea['transactions']['especialidad_doctor'] = bloque['transactions']['especialidad']

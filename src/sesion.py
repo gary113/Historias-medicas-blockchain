@@ -1,7 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, session
 
-from src.utilidad import (hashear_bloque, hashear_contrasenia,
-                          obtener_cadena_local)
+from src.utilidad import hashear, hashear_contrasenia, obtener_cadena_local
 
 bp_sesion = Blueprint('bp_sesion', __name__)
 
@@ -22,9 +21,6 @@ def principal():
         contrasenia = hashear_contrasenia(request.form['input_contrasenia'])
         hash = request.form['input_hash']
 
-        print(usuario)
-        print(contrasenia)
-
         blockchain = obtener_cadena_local()
 
         for bloque in blockchain[1:]:
@@ -37,7 +33,7 @@ def principal():
                         return redirect('menu_principal.html')
                 else:
 
-                    if hashear_bloque(bloque) == hash:
+                    if hashear(bloque) == hash:
                         session['usuario'] = bloque['transactions']['usuario']
                         session['tipo'] = 'doctor'
 
@@ -55,8 +51,6 @@ def iniciar_administrador():
     cadena = obtener_cadena_local()
 
     if request.method == 'GET':
-
-        print(session.get('usuario'))
 
         if session.get('usuario') is not None and session['tipo'] == 'admin':
             return redirect('administrador_principal.html')
@@ -80,7 +74,7 @@ def iniciar_administrador():
                         return redirect('administrador_principal.html')
                 else:
 
-                    if hashear_bloque(bloque) == hash:
+                    if hashear(bloque) == hash:
                         session['usuario'] = bloque['transactions']['usuario']
                         session['tipo'] = 'admin'
 

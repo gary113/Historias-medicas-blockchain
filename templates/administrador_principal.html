@@ -35,33 +35,55 @@
       </div>
     </section>
 
-    <div
-      class="columns is-centered is-vcentered"
-      style="position: relative; top: 8em"
-    >
-      <div class="column is-2">
-        <h1 class="title has-text-centered">
-          <a href="registrar_doctor.html">
-            <img src="../static/registrarse.png" width="200" height="200" />
-            <br />Registrar doctor
-          </a>
-        </h1>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="container" style="margin-top: 2em">
+      <article class="message is-success">
+        <div class="message-header">
+          <p>Mensaje</p>
+          <form method="GET">
+            <button
+              name="btn_cerrar"
+              type="submit"
+              class="delete"
+              aria-label="delete"
+            ></button>
+          </form>
+        </div>
+        <div class="message-body">
+          <div class="flashes">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+    </div>
+    {% endif %} {% endwith %}
+
+    <div class="columns is-vcentered" style="margin-top: 2em">
+      <div class="column has-text-centered is-2 is-offset-3">
+        <a href="registrar_doctor.html">
+          <img src="../static/registrarse.png" width="200" height="200" />
+          <div class="is-tittle" style="font-size: larger; font-weight: bold">
+            Registrar doctor
+          </div>
+        </a>
       </div>
-      <div class="column is-2">
-        <h1 class="title has-text-centered">
-          <a href="registrar_administrador.html">
-            <img src="../static/registrar_admin.jpg" width="200" height="200" />
-            <br />Registrar administrador
-          </a>
-        </h1>
+      <div class="column has-text-centered is-2">
+        <a href="registrar_administrador.html">
+          <img src="../static/registrar_admin.jpg" width="200" height="200" />
+          <div class="is-tittle" style="font-size: larger; font-weight: bold">
+            Registrar administrador
+          </div>
+        </a>
       </div>
-      <div class="column is-2">
-        <h1 class="title has-text-centered">
-          <a href="administrador_estadisticas.html">
-            <img src="../static/estadisticas.png" width="200" height="200" />
-            <br />Estadísticas
-          </a>
-        </h1>
+      <div class="column has-text-centered is-2">
+        <a href="administrador_estadisticas.html">
+          <img src="../static/estadisticas.png" width="200" height="200" />
+          <div class="is-tittle" style="font-size: larger; font-weight: bold">
+            Estadísticas
+          </div>
+        </a>
       </div>
     </div>
 

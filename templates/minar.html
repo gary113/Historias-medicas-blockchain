@@ -12,43 +12,140 @@
   </head>
 
   <body>
-    {% with messages = get_flashed_messages() %} {% if messages %}
-    <div class="container">
-      <article class="message is-success">
-        <div class="message-header">
-          <p>Mensaje</p>
+    <div class="container" style="margin-top: 2em">
+      {% with messages = get_flashed_messages() %} 
+      <!---->
+        {% if messages %}
+          {% if estado == 1 %}
+            <article class="message is-success">
+              <div class="message-header">
+                <p>Mensajes</p>
+                <form method="GET">
+                  <button
+                    name="btn_cerrar"
+                    type="submit"
+                    class="delete"
+                    aria-label="delete"
+                  ></button>
+                </form>
+              </div>
+              <div class="message-body">
+                <ul class="flashes">
+                  {% for message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </article>
+          {% else %}
+            <article class="message is-danger">
+              <div class="message-header">
+                <p>Mensajes</p>
+                <form method="GET">
+                  <button
+                    name="btn_cerrar"
+                    type="submit"
+                    class="delete"
+                    aria-label="delete"
+                  ></button>
+                </form>
+              </div>
+              <div class="message-body">
+                <ul class="flashes">
+                  {% for message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </article>
+          {% endif %}
+        {% endif %} 
+      <!---->
+      {% endwith %}
+      <div class=box>
+        Nodos conectados:
+      <ul>
+      {% for peer in peers %}
+        <li>{{ peer }}</li>
+      {% endfor %}
+      </ul>
+    </div>
+
+      {% if transacciones|count()>0: %}
+
+        <div class="field is-grouped" style="margin-left: 25%">
+          <p class="control">
+          Existen {{transacciones|count()}} transacciones pendientes para minar
+          </p>
+          <p class="control">
           <form method="POST">
+            <button name="btn_minar" type="submit" class="button is-normal is-danger">Minar</button>
+          </form>
+          </p>
+          <p class="control">
+          <form method="GET">
             <button
+              class="button"
               name="btn_actualizar"
               type="submit"
-              class="delete"
-              aria-label="delete"
-            ></button>
+            >Actualizar</button>
           </form>
+          </p>
         </div>
-        <div class="message-body">
-          <ul class="flashes">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      </article>
 
-      {% endif %} {% endwith %}
-      <!---->
-      {% if transacciones|count()>0: %}
-      <div class="content">
-        Existen {{transacciones|count()}} transacciones pendientes para minar
-      </div>
-      <form method="POST">
-        <button name="btn_minar" type="submit" class="button">Minar</button>
-      </form>
+        <table class="table">
+          <tr>
+            <thead>
+              <th>Tipo transacción</th>
+              <th>Hash transacción</th>
+              <th>Nodo de origen</th>
+            </thead>
+          </tr>
+
+          {% for transaccion in transacciones: %}
+          <!---->
+          {% set temp = info_transacciones[loop.index0].split(',') %}
+          <tr>
+            
+              {% if transaccion['tipo']== 0 %}
+              <td>Registro de administrador</td>
+              {% else %}
+                {% if transaccion['tipo']== 1 %}
+                <td>Registro de paciente</td>
+                {% else %}
+                  {% if transaccion['tipo']== 2 %}
+                  <td>Registro de doctor</td>
+                  {% else %}
+                    <td>Registro de historia</td>
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+
+            <td>{{ temp[0] }}</td>
+            <td>{{ temp[1] }}</td>
+          </tr>
+          {% endfor %}
+          </div>
+          
       {% else %}
 
-      <div class="title is-5" style="text-align: center; margin-top: 1.5em">
-        No existen transacciones para minar
-      </div>
+        <div class="field is-grouped">
+          <p class="control">
+          No existen transacciones pendientes para minar
+          </p>
+          <p class="control">
+            <button name="btn_minar" type="submit" class="button is-normal" disabled>Minar</button>
+          </p>
+          <p class="control">
+            <form method="GET">
+              <button
+                class="button"
+                name="btn_actualizar"
+                type="submit"
+              >Actualizar</button>
+            </form>
+            </p>
+        </div>
 
       {% endif %}
     </div>

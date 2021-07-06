@@ -50,11 +50,11 @@
             </form>
           </div>
           <div class="message-body">
-            <ul class="flashes">
+            <div class="flashes">
               {% for message in messages %}
-              <li>{{ message }}</li>
+              <p>{{ message }}</p>
               {% endfor %}
-            </ul>
+            </div>
           </div>
         </article>
 

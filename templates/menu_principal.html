@@ -42,9 +42,9 @@
         <article class="message is-success">
           <div class="message-header">
             <p>Mensaje</p>
-            <form method="POST">
+            <form method="GET">
               <button
-                name="btn_actualizar"
+                name="btn_cerrar"
                 type="submit"
                 class="delete"
                 aria-label="delete"
@@ -52,17 +52,16 @@
             </form>
           </div>
           <div class="message-body">
-            <ul class="flashes">
+            <div class="flashes">
               {% for message in messages %}
-              <li>{{ message }}</li>
+              <p>{{ message }}</p>
               {% endfor %}
-            </ul>
+            </div>
           </div>
         </article>
-
-        {% endif %} {% endwith %}
       </div>
     </div>
+    {% endif %} {% endwith %}
     <!---->
 
     <div class="columns is-vcentered content">

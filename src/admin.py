@@ -1,10 +1,9 @@
 
 import matplotlib
 import matplotlib.pyplot as plt
-from flask import Blueprint, redirect, render_template, request, session
-from numpy.lib.function_base import rot90
+from flask import Blueprint, flash, redirect, render_template, request, session
 
-from src.utilidad import (hashear_bloque, hashear_contrasenia,
+from src.utilidad import (MENSAJE_TRANSACCION, hashear, hashear_contrasenia,
                           nueva_transaccion, obtener_cadena_local)
 
 matplotlib.use('Agg')
@@ -31,6 +30,7 @@ def registrar_doctor():
 
         nueva_transaccion(datos)
 
+        flash(MENSAJE_TRANSACCION)
         return redirect('administrador_principal.html')
 
     elif request.method == 'GET':
@@ -54,7 +54,7 @@ def administrador_principal():
                 if bloque['transactions']['tipo'] == 0:
                     if bloque['transactions']['usuario'] == session['usuario']:
                         bloque_admin = bloque
-                        hash_admin = hashear_bloque(bloque_admin)
+                        hash_admin = hashear(bloque_admin)
 
             return render_template('administrador_principal.html', bloque_admin=bloque_admin, hash_admin=hash_admin)
         else:
@@ -87,6 +87,7 @@ def registrar_administrador():
 
         nueva_transaccion(datos)
 
+        flash(MENSAJE_TRANSACCION)
         return redirect('administrador_principal.html')
 
     if session.get('usuario') is not None and session['tipo'] == 'admin':
@@ -116,7 +117,7 @@ def administrador_pacientesxdoctor_estadisticas():
     for bloque_doctor in cadena:
         if bloque_doctor['transactions']['tipo'] == 2:
             contador = 0
-            hash_doctor = hashear_bloque(bloque_doctor)
+            hash_doctor = hashear(bloque_doctor['transactions'])
             nombre_completo = bloque_doctor['transactions']['nombres'] + \
                 ' ' + bloque_doctor['transactions']['apellidos']
             especialidad_doctor = bloque_doctor['transactions']['especialidad']
@@ -129,6 +130,8 @@ def administrador_pacientesxdoctor_estadisticas():
 
     top_doctores = sorted(
         top_doctores, key=lambda i: i['cantidad'], reverse=True)
+
+    print(top_doctores)
 
     if request.method == 'POST':
 
@@ -189,7 +192,7 @@ def administrador_pacientesxespecialidad_estadisticas():
     for bloque_doctor in cadena:
         if bloque_doctor['transactions']['tipo'] == 2:
             contador = 0
-            hash_doctor = hashear_bloque(bloque_doctor)
+            hash_doctor = hashear(bloque_doctor['transactions'])
             nombre_completo = bloque_doctor['transactions']['nombres'] + \
                 ' ' + bloque_doctor['transactions']['apellidos']
             especialidad_doctor = bloque_doctor['transactions']['especialidad']

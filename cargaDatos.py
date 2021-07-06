@@ -5,8 +5,7 @@ import random
 
 import pandas as pd
 
-from src.utilidad import (hashear_bloque, nueva_transaccion,
-                          obtener_cadena_local)
+from src.utilidad import hashear, nueva_transaccion, obtener_cadena_local
 
 
 def cargar_doctores():
@@ -56,7 +55,7 @@ def generar_hashes_doctores():
     # doctores
     for bloque in cadena:
         if bloque['transactions']['tipo'] == 2:
-            archivo_hashes_doctores.write(hashear_bloque(bloque)+'\n')
+            archivo_hashes_doctores.write(hashear(bloque['transactions'])+'\n')
 
     archivo_hashes_doctores.close()
 
@@ -68,7 +67,8 @@ def generar_hashes_pacientes():
     # pacientes
     for bloque in cadena:
         if bloque['transactions']['tipo'] == 1:
-            archivo_hashes_pacientes.write(hashear_bloque(bloque)+'\n')
+            archivo_hashes_pacientes.write(
+                hashear(bloque['transactions'])+'\n')
 
     archivo_hashes_pacientes.close()
 
@@ -113,7 +113,8 @@ def cargar_historias():
                   'transactions': transaction,
                   'timestamp': str(datetime.datetime.now()-datetime.timedelta(days=resta_dias)+datetime.timedelta(minutes=random.randint(-180, 180))),
                   'proof': proof_of_work(cadena[-1]['proof']),
-                  'previous_hash': hashear_bloque(cadena[-1])
+                  'current_hash': hashear(transaction),
+                  'previous_hash': hashear(cadena[-1]['transactions'])
                   }
 
         cadena.append(bloque)
@@ -129,10 +130,12 @@ def cargar_historias():
         resta_dias -= 1
 
 
-# cargar_doctores()
-# cargar_pacientes()
+if __name__ == '__main__':
 
-# generar_hashes_doctores()
-# generar_hashes_pacientes()
+    # cargar_doctores()
+    # cargar_pacientes()
 
-# cargar_historias()
+    # generar_hashes_doctores()
+    # generar_hashes_pacientes()
+
+    cargar_historias()

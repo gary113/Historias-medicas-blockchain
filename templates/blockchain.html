@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blockchain</title>
+    <link rel="stylesheet" href="../static/assets/css/bulma.css" />
+  </head>
+  <body style="background-image: url(../static/fondo_mosaico.png)">
+    <div class="container" style="width: 35%">
+      {% for i in range(cadena|count()): %}
+      <!---->
+      {% if revision_cadena[i]==1: %}
+      <img
+        src="../static/flecha_arriba.png"
+        width="25"
+        height="25"
+        style="position: relative; left: 50%"
+      />
+      <div
+        class="box content"
+        style="background-color: rgb(0, 61, 0); color: aliceblue"
+      >
+        <ul>
+          <li><p>Índice: {{cadena[i]['index']}}</p></li>
+          <li><p>Transacción: {{cadena[i]['current_hash']}}</p></li>
+          <li><p>Fecha y hora: {{cadena[i]['timestamp']}}</p></li>
+          <li><p>Nonce: {{cadena[i]['proof']}}</p></li>
+          <li><p>Hash previo: {{cadena[i]['previous_hash']}}</p></li>
+        </ul>
+      </div>
+
+      {% else: %}
+      <img
+        src="../static/equis.png"
+        width="50"
+        height="50"
+        style="position: relative; left: 50%"
+      />
+      <div
+        class="box content"
+        style="background-color: #842725; color: aliceblue"
+      >
+        <ul>
+          <li><p>Índice: {{cadena[i]['index']}}</p></li>
+          <li><p>Transacción: {{cadena[i]['current_hash']}}</p></li>
+          <li><p>Fecha y hora: {{cadena[i]['timestamp']}}</p></li>
+          <li><p>Nonce: {{cadena[i]['proof']}}</p></li>
+          <li><p>Hash previo: {{cadena[i]['previous_hash']}}</p></li>
+        </ul>
+      </div>
+
+      {% endif %}
+      <!---->
+      {% endfor %}
+    </div>
+  </body>
+</html>
