@@ -68,13 +68,9 @@ def registrar_administrador():
 
     if request.method == 'POST':
 
-        try:
-            if request.form['inputSuper'] == 'Super administrador':
-                tipo = 1
-            else:
-                tipo = 0
-
-        except:
+        if request.form.get('inputSuper') == 'Super administrador':
+            tipo = 1
+        else:
             tipo = 0
 
         nombres = request.form['inputNombres'].upper()
@@ -130,8 +126,6 @@ def administrador_pacientesxdoctor_estadisticas():
 
     top_doctores = sorted(
         top_doctores, key=lambda i: i['cantidad'], reverse=True)
-
-    print(top_doctores)
 
     if request.method == 'POST':
 

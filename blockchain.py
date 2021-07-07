@@ -125,7 +125,9 @@ class Blockchain:
     # 0=administrador 1=paciente, 2=doctor , 3=registro_historia
     def minar_bloque(self, tipo_bloque, datos):
 
-        previous_block = self.chain[-1]
+        cadena_local = obtener_cadena_local()
+
+        previous_block = cadena_local[-1]
         previous_proof = previous_block['proof']
         proof = self.proof_of_work(previous_proof)
         previous_hash = self.hash(previous_block['transactions'])

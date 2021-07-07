@@ -84,6 +84,30 @@
       </div>
     </div>
 
+    <div class="container mt-5">
+      <form method="POST" class="level">
+        <div class="level-left">
+          <div class="level-item">Filtrar: &nbsp;</div>
+        </div>
+        <div class="level-item">
+          <div class="select is-fullwidth">
+            <select name="inputFiltrar">
+              {% for caso in lista_casos_totales %}
+              <option>{{caso}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <button type="submit" name="btn_filtrar" class="button">
+              Filtrar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
     {% if historia|count()>0: %}
 
     <table
@@ -127,11 +151,21 @@
     <div>
       <form
         class="container"
-        action="detalle_historia.html?dni={{paciente['transactions']['dni']}}"
+        action="detalle_historia.html?dni={{paciente['transactions']['dni']}}&indice=0"
         method="POST"
         autocomplete="off"
       >
         <strong>Registro de hoy</strong>
+        <br />
+        <br />
+
+        <div class="select is-fullwidth">
+          <select name="inputIndice">
+            {% for caso in lista_casos %}
+            <option>{{caso}}</option>
+            {% endfor %}
+          </select>
+        </div>
 
         <input
           class="input"
@@ -156,6 +190,14 @@
           style="margin-bottom: 1.5em"
         ></textarea>
 
+        <div class="select is-fullwidth">
+          <select name="inputEstado">
+            <option>Abierto</option>
+            <option>Cerrado</option>
+          </select>
+        </div>
+        <br />
+        <br />
         <button type="submit" name="btn_registrar" class="button">
           Registrar linea
         </button>

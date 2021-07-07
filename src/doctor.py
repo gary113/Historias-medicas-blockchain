@@ -120,12 +120,15 @@ def detalle_historia():
     if request.method == 'POST':
 
         dni = request.args.get('dni')
+        indice_filtrar = 0
 
         if 'btn_registrar' in request.form:
 
             titulo = request.form['inputTitulo']
             descripcion = request.form['inputDescripcion']
             lugar = request.form['inputLugar']
+            estado_ticket = request.form['inputEstado']
+            input_indice = request.form['inputIndice']
 
             for bloque in cadena[1:]:
                 if bloque['transactions']['tipo'] == 1:
@@ -135,19 +138,40 @@ def detalle_historia():
 
             hash_paciente = hashear(paciente['transactions'])
 
-            datosAdicionales = {'tipo': 3, 'hash_paciente': hash_paciente, 'hash_doctor': hash_doctor,
+            if input_indice == 'Nuevo ticket':
+
+                indice_historia = 1
+
+                for bloque in cadena[::-1]:
+                    if bloque['transactions']['tipo'] == 3 and bloque['transactions']['hash_paciente'] == hash_paciente:
+                        indice_historia = bloque['transactions']['indice_ticket']+1
+                        break
+
+            else:
+                indice_historia = int(input_indice.split('-')[0])
+
+            datos = {'tipo': 3, 'indice_ticket': indice_historia, 'estado_ticket': estado_ticket, 'hash_paciente': hash_paciente, 'hash_doctor': hash_doctor,
                                 'titulo': titulo, 'descripcion': descripcion, 'lugar': lugar}
 
-            nueva_transaccion(datosAdicionales)
+            nueva_transaccion(datos)
 
             flash(MENSAJE_TRANSACCION)
 
-        return redirect('detalle_historia.html?dni='+dni)
+        elif 'btn_filtrar' in request.form:
+            indice_filtrar = request.form['inputFiltrar'].split('-')[0]
+
+            if indice_filtrar == 'Sin filtro':
+                return redirect('detalle_historia.html?dni='+dni+'&indice='+str(0))
+            else:
+                return redirect('detalle_historia.html?dni='+dni+'&indice='+str(indice_filtrar))
+
+        return redirect('detalle_historia.html?dni='+dni+'&indice='+str(indice_filtrar))
 
     if session.get('usuario') is not None and session['tipo'] == 'doctor':
 
         lineasHistoria = []
         dni = request.args.get('dni')
+        indice_filtrar = int(request.args.get('indice'))
 
         for bloque in cadena[1:]:
             if bloque['transactions']['tipo'] == 1:
@@ -163,10 +187,42 @@ def detalle_historia():
         edad = int((datetime.date.today()-datetime.date(int(fecha_nacimiento[0]), int(
             fecha_nacimiento[1]), int(fecha_nacimiento[2]))).days/365)
 
+        lista_indices_abiertos = []
+        lista_indices_cerrados = []
+        lista_indices_totales = []
+        lista_casos_totales = ['Sin filtro']
+        lista_casos = ['Nuevo ticket']
+
         for bloque in cadena[1:]:
-            if bloque['transactions']['tipo'] == 3:
-                if bloque['transactions']['hash_paciente'] == hash_paciente:
-                    lineasHistoria.append(bloque)
+            if indice_filtrar == 0:
+                if bloque['transactions']['tipo'] == 3:
+                    if bloque['transactions']['hash_paciente'] == hash_paciente:
+                        lineasHistoria.append(bloque)
+            else:
+                if bloque['transactions']['tipo'] == 3 and bloque['transactions']['indice_ticket'] == indice_filtrar:
+                    if bloque['transactions']['hash_paciente'] == hash_paciente:
+                        lineasHistoria.append(bloque)
+
+        for bloque in cadena[::-1]:
+
+            if bloque['transactions']['tipo'] == 3 and bloque['transactions']['indice_ticket'] not in lista_indices_abiertos and bloque['transactions']['indice_ticket'] not in lista_indices_cerrados:
+
+                if bloque['transactions']['estado_ticket'] == 'Abierto':
+                    lista_indices_abiertos.append(
+                        bloque['transactions']['indice_ticket'])
+
+                    lista_casos.append(str(bloque['transactions']['indice_ticket']) + ' - ' +
+                                       bloque['transactions']['titulo'] + ' - ' + bloque['timestamp'][:16])
+                else:
+                    lista_indices_cerrados.append(
+                        bloque['transactions']['indice_ticket'])
+
+        for bloque in cadena[1:]:
+            if bloque['transactions']['tipo'] == 3 and bloque['transactions']['indice_ticket'] not in lista_indices_totales:
+                lista_indices_totales.append(
+                    bloque['transactions']['indice_ticket'])
+                lista_casos_totales.append(str(bloque['transactions']['indice_ticket']) + ' - ' +
+                                           bloque['transactions']['titulo'] + ' - ' + bloque['timestamp'][:16])
 
         for linea in lineasHistoria:
 
@@ -180,7 +236,7 @@ def detalle_historia():
                         linea['transactions']['especialidad_doctor'] = bloque['transactions']['especialidad']
                         break
 
-        return render_template('detalle_historia.html', paciente=paciente, historia=lineasHistoria, hash_paciente=hash_paciente, edad=edad)
+        return render_template('detalle_historia.html', lista_casos_totales=lista_casos_totales, lista_casos=lista_casos, paciente=paciente, historia=lineasHistoria, hash_paciente=hash_paciente, edad=edad)
 
     else:
         return redirect('iniciar_sesion.html')
